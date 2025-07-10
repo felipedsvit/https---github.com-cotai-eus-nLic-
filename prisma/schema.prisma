@@ -1,0 +1,234 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Domain Tables
+model ModalidadeContratacao {
+  id     Int    @id
+  nome   String
+  ativo  Boolean @default(true)
+  
+  // Relations
+  contratacoes            Contratacao[]
+  oportunidadesAbertas    OportunidadeAberta[]
+  
+  @@map("modalidades_contratacao")
+}
+
+model ModoDisputa {
+  id     Int    @id
+  nome   String
+  ativo  Boolean @default(true)
+  
+  // Relations
+  contratacoes Contratacao[]
+  
+  @@map("modos_disputa")
+}
+
+model SituacaoContratacao {
+  id     Int    @id
+  nome   String
+  ativo  Boolean @default(true)
+  
+  // Relations
+  contratacoes         Contratacao[]
+  oportunidadesAbertas OportunidadeAberta[]
+  
+  @@map("situacoes_contratacao")
+}
+
+// API Response Storage Models
+model Contratacao {
+  id                               String   @id @default(cuid())
+  numeroControlePNCP               String   @unique
+  numeroCompra                     String?
+  anoCompra                        Int?
+  processo                         String?
+  tipoInstrumentoConvocatorioId    Int?
+  tipoInstrumentoConvocatorioNome  String?
+  modalidadeId                     Int?
+  modalidadeNome                   String?
+  modoDisputaId                    Int?
+  modoDisputaNome                  String?
+  situacaoCompraId                 Int?
+  situacaoCompraNome               String?
+  objetoCompra                     String?
+  informacaoComplementar           String?
+  srp                              Boolean?
+  amparoLegalCodigo                Int?
+  amparoLegalNome                  String?
+  amparoLegalDescricao             String?
+  valorTotalEstimado               Decimal?
+  valorTotalHomologado             Decimal?
+  dataAberturaProposta             DateTime?
+  dataEncerramentoProposta         DateTime?
+  dataPublicacaoPncp               DateTime?
+  dataInclusao                     DateTime?
+  dataAtualizacao                  DateTime?
+  sequencialCompra                 Int?
+  orgaoEntidadeCnpj                String?
+  orgaoEntidadeRazaoSocial         String?
+  orgaoEntidadePoderId             String?
+  orgaoEntidadeEsferaId            String?
+  unidadeOrgaoCodigoUnidade        String?
+  unidadeOrgaoNomeUnidade          String?
+  unidadeOrgaoCodigoIbge           Int?
+  unidadeOrgaoMunicipioNome        String?
+  unidadeOrgaoUfSigla              String?
+  unidadeOrgaoUfNome               String?
+  orgaoSubRogadoCnpj               String?
+  orgaoSubRogadoRazaoSocial        String?
+  orgaoSubRogadoPoderId            String?
+  orgaoSubRogadoEsferaId           String?
+  unidadeSubRogadaCodigoUnidade    String?
+  unidadeSubRogadaNomeUnidade      String?
+  unidadeSubRogadaCodigoIbge       Int?
+  unidadeSubRogadaMunicipioNome    String?
+  unidadeSubRogadaUfSigla          String?
+  unidadeSubRogadaUfNome           String?
+  usuarioNome                      String?
+  linkSistemaOrigem                String?
+  justificativaPresencial          String?
+  
+  // Raw API response storage
+  rawData                          Json?
+  
+  // Audit fields
+  createdAt                        DateTime @default(now())
+  updatedAt                        DateTime @updatedAt
+  
+  // Relations
+  modalidade                       ModalidadeContratacao? @relation(fields: [modalidadeId], references: [id])
+  modoDisputa                      ModoDisputa?           @relation(fields: [modoDisputaId], references: [id])
+  situacaoContratacao              SituacaoContratacao?   @relation(fields: [situacaoCompraId], references: [id])
+  
+  @@map("contratacoes")
+}
+
+model OportunidadeAberta {
+  id                               String   @id @default(cuid())
+  numeroControlePNCP               String   @unique
+  numeroCompra                     String?
+  anoCompra                        Int?
+  processo                         String?
+  tipoInstrumentoConvocatorioId    Int?
+  tipoInstrumentoConvocatorioNome  String?
+  modalidadeId                     Int?
+  modalidadeNome                   String?
+  modoDisputaId                    Int?
+  modoDisputaNome                  String?
+  situacaoCompraId                 Int?
+  situacaoCompraNome               String?
+  objetoCompra                     String?
+  informacaoComplementar           String?
+  srp                              Boolean?
+  amparoLegalCodigo                Int?
+  amparoLegalNome                  String?
+  amparoLegalDescricao             String?
+  valorTotalEstimado               Decimal?
+  valorTotalHomologado             Decimal?
+  dataAberturaProposta             DateTime?
+  dataEncerramentoProposta         DateTime?
+  dataPublicacaoPncp               DateTime?
+  dataInclusao                     DateTime?
+  dataAtualizacao                  DateTime?
+  sequencialCompra                 Int?
+  orgaoEntidadeCnpj                String?
+  orgaoEntidadeRazaoSocial         String?
+  orgaoEntidadePoderId             String?
+  orgaoEntidadeEsferaId            String?
+  unidadeOrgaoCodigoUnidade        String?
+  unidadeOrgaoNomeUnidade          String?
+  unidadeOrgaoCodigoIbge           Int?
+  unidadeOrgaoMunicipioNome        String?
+  unidadeOrgaoUfSigla              String?
+  unidadeOrgaoUfNome               String?
+  orgaoSubRogadoCnpj               String?
+  orgaoSubRogadoRazaoSocial        String?
+  orgaoSubRogadoPoderId            String?
+  orgaoSubRogadoEsferaId           String?
+  unidadeSubRogadaCodigoUnidade    String?
+  unidadeSubRogadaNomeUnidade      String?
+  unidadeSubRogadaCodigoIbge       Int?
+  unidadeSubRogadaMunicipioNome    String?
+  unidadeSubRogadaUfSigla          String?
+  unidadeSubRogadaUfNome           String?
+  usuarioNome                      String?
+  linkSistemaOrigem                String?
+  justificativaPresencial          String?
+  
+  // Raw API response storage
+  rawData                          Json?
+  
+  // Audit fields
+  createdAt                        DateTime @default(now())
+  updatedAt                        DateTime @updatedAt
+  
+  // Relations
+  modalidade                       ModalidadeContratacao? @relation(fields: [modalidadeId], references: [id])
+  situacaoContratacao              SituacaoContratacao?   @relation(fields: [situacaoCompraId], references: [id])
+  
+  @@map("oportunidades_abertas")
+}
+
+model AtaRegistroPreco {
+  id                               String   @id @default(cuid())
+  numeroControlePNCPAta            String   @unique
+  numeroControlePNCPCompra         String?
+  numeroAtaRegistroPreco           String?
+  anoAta                           Int?
+  dataAssinatura                   DateTime?
+  vigenciaInicio                   DateTime?
+  vigenciaFim                      DateTime?
+  dataCancelamento                 DateTime?
+  cancelado                        Boolean?
+  dataPublicacaoPncp               DateTime?
+  dataInclusao                     DateTime?
+  dataAtualizacao                  DateTime?
+  objetoContratacao                String?
+  cnpjOrgao                        String?
+  nomeOrgao                        String?
+  codigoUnidadeOrgao               String?
+  nomeUnidadeOrgao                 String?
+  cnpjOrgaoSubrogado               String?
+  nomeOrgaoSubrogado               String?
+  codigoUnidadeOrgaoSubrogado      String?
+  nomeUnidadeOrgaoSubrogado        String?
+  usuario                          String?
+  
+  // Raw API response storage
+  rawData                          Json?
+  
+  // Audit fields
+  createdAt                        DateTime @default(now())
+  updatedAt                        DateTime @updatedAt
+  
+  @@map("atas_registro_preco")
+}
+
+// API Response Metadata
+model ApiResponseMetadata {
+  id               String   @id @default(cuid())
+  endpoint         String   // Which API endpoint (6.3, 6.4, 6.5)
+  requestParams    Json     // Store request parameters
+  totalRegistros   Int
+  totalPaginas     Int
+  numeroPagina     Int
+  paginasRestantes Int
+  empty            Boolean
+  responseTime     DateTime
+  
+  // Audit fields
+  createdAt        DateTime @default(now())
+  
+  @@map("api_response_metadata")
+}

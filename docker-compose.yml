@@ -1,0 +1,57 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/nlic
+      - PNCP_API_BASE_URL=https://pncp.gov.br/api/consulta
+      - NEXT_PUBLIC_APP_URL=http://localhost:3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - nlic-network
+
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=nlic
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - nlic-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d nlic"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  worker:
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/nlic
+      - PNCP_API_BASE_URL=https://pncp.gov.br/api/consulta
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - nlic-network
+
+volumes:
+  postgres_data:
+
+networks:
+  nlic-network:
+    driver: bridge

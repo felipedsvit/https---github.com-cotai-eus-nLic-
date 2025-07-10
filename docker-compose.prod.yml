@@ -1,0 +1,58 @@
+services:
+  app:
+    build: .
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - PNCP_API_BASE_URL=${PNCP_API_BASE_URL}
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
+    depends_on:
+      - postgres
+    networks:
+      - nlic-network
+
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - nlic-network
+
+  worker:
+    build:
+      context: .
+      dockerfile: worker/Dockerfile
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - PNCP_API_BASE_URL=${PNCP_API_BASE_URL}
+    depends_on:
+      - postgres
+    networks:
+      - nlic-network
+
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - app
+    volumes:
+      - nginx_certs:/etc/nginx/certs
+    networks:
+      - nlic-network
+
+volumes:
+  postgres_data:
+  nginx_certs:
+
+networks:
+  nlic-network:
+    driver: bridge
