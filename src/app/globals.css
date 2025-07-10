@@ -73,10 +73,11 @@
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
@@ -89,24 +90,34 @@
   
   /* Modern card hover effects */
   .card-hover {
-    @apply hover:shadow-soft-lg hover:scale-[1.02] transition-all duration-200;
+    transition: all 0.2s ease;
+  }
+  .card-hover:hover {
+    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transform: scale(1.02);
   }
   
   /* Modern button effects */
   .button-modern {
-    @apply transition-all duration-200 hover:scale-105 active:scale-95;
+    transition: all 0.2s ease;
+  }
+  .button-modern:hover {
+    transform: scale(1.05);
+  }
+  .button-modern:active {
+    transform: scale(0.95);
   }
   
   /* Smooth animations */
   .animate-in {
-    @apply animate-fade-in;
+    animation: fadeIn 0.5s ease-in-out;
   }
   
   .slide-in {
-    @apply animate-slide-in;
+    animation: slideIn 0.3s ease-out;
   }
   
   .scale-in {
-    @apply animate-scale-in;
+    animation: scaleIn 0.2s ease-out;
   }
 }

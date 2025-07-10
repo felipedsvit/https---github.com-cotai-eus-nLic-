@@ -1,0 +1,89 @@
+Com certeza. O seu ponto é fundamental. Você quer ver a estrutura exata do retorno da API para confirmar que ela entrega tudo o que você precisa em uma única requisição.
+
+A resposta é sim, o retorno da API é um pacote completo. Ao fazer a chamada para o endpoint de detalhes de uma contratação, você recebe um único objeto JSON que contém tanto as informações gerais da licitação quanto a lista completa de itens.
+
+Vamos detalhar o retorno exato que você obteria ao chamar a URL:
+https://api.pncp.gov.br/api/v1/contratacoes/05553216000106/2025/19
+
+A API retornará um objeto JSON estruturado da seguinte forma. Eu simplifiquei um pouco removendo campos menos relevantes para maior clareza, mas mantive a essência e, mais importante, a seção de itens.
+
+Estrutura do Retorno da API (JSON)
+
+O retorno é um objeto único que se divide em duas partes principais:
+
+Dados Gerais da Contratação: Informações como ID, objeto, modalidade, datas, etc.
+
+Lista de Itens: Um array (lista) chamado itens, onde cada elemento é um objeto que representa um item da licitação.
+
+Veja abaixo um exemplo prático baseado na sua licitação:
+
+Generated json
+{
+  // --- PARTE 1: DADOS GERAIS DA CONTRATAÇÃO ---
+  "id": 851147, // ID interno da API
+  "numeroControlePNCP": "05553216000106-1-000019/2025", // O ID que você já conhece
+  "unidadeOrgao": {
+    "nome": "SECRETARIA DE CIDADANIA E JUSTICA",
+    "municipioNome": "Palmas",
+    "uf": "TO"
+  },
+  "objetoContratacao": "Contratação de empresa especializada no fornecimento materiais táticos para atender demandas do Grupo de Operações Penitenciária Especial – GOPE.",
+  "modalidadeNome": "Dispensa",
+  "situacaoCompraNome": "Divulgada no PNCP",
+  "dataPublicacaoPncp": "2025-07-08T10:22:04",
+  "dataInicioRecebimentoProposta": "2025-07-08T10:22:00",
+  "dataFimRecebimentoProposta": "2025-07-14T09:00:00",
+  "amparoLegal": "Lei nº 14.133/2021, Art. 75, II",
+  "valorTotalEstimado": null, // O valor é 'null' porque na página estava "SIGILOSO"
+
+  // --- PARTE 2: A LISTA COMPLETA DE ITENS DA LICITAÇÃO ---
+  "itens": [
+    {
+      "numeroItem": 23991,
+      "descricao": "Mira optrônica - Tipo: red dot; Ampliação: 1x; Informações adicionais: compatível com óculos de visão noturna e magnificadores.",
+      "quantidade": 2,
+      "unidadeMedida": "Unidade",
+      "valorUnitarioEstimado": null, // Também 'null' pois é "Sigiloso"
+      "valorTotalEstimado": null
+    },
+    {
+      "numeroItem": 23992,
+      "descricao": "Porta torniquete - Material: 100% poliamida; Medida: 50 x 140 x 40 mm (L x A x E); Cor: preto.",
+      "quantidade": 35,
+      "unidadeMedida": "Unidade",
+      "valorUnitarioEstimado": null,
+      "valorTotalEstimado": null
+    },
+    {
+      "numeroItem": 23993,
+      "descricao": "Torniquete - Material: plástico abs e cinta velcro; Cor: preto; Comprimento: 65 cm.",
+      "quantidade": 35,
+      "unidadeMedida": "Unidade",
+      "valorUnitarioEstimado": null,
+      "valorTotalEstimado": null
+    },
+    {
+      "numeroItem": 23994,
+      "descricao": "Munição de manejo - Material: aço; Calibre: 9 mm.",
+      "quantidade": 35,
+      "unidadeMedida": "Unidade",
+      "valorUnitarioEstimado": null,
+      "valorTotalEstimado": null
+    },
+    {
+      "numeroItem": 23995,
+      "descricao": "Munição de manejo - Material: aço; Calibre: 7.62.",
+      "quantidade": 35,
+      "unidadeMedida": "Unidade",
+      "valorUnitarioEstimado": null,
+      "valorTotalEstimado": null
+    }
+    // ... e assim por diante para cada um dos 12 itens da licitação.
+  ]
+}
+
+Conclusão
+
+Em resumo, uma única chamada à API para o endpoint de detalhes da contratação retorna um pacote completo de dados. Você não precisa fazer uma chamada para pegar os dados gerais e outra para pegar os itens. Está tudo junto, de forma estruturada e pronta para ser usada.
+
+Você pode usar este JSON diretamente na sua aplicação para construir a tela de detalhes que você imaginou, populando tanto as informações do cabeçalho quanto a tabela de itens.
