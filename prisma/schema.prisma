@@ -81,7 +81,7 @@ model Contratacao {
   orgaoEntidadeEsferaId            String?
   unidadeOrgaoCodigoUnidade        String?
   unidadeOrgaoNomeUnidade          String?
-  unidadeOrgaoCodigoIbge           Int?
+  unidadeOrgaoCodigoIbge           String?
   unidadeOrgaoMunicipioNome        String?
   unidadeOrgaoUfSigla              String?
   unidadeOrgaoUfNome               String?
@@ -91,7 +91,7 @@ model Contratacao {
   orgaoSubRogadoEsferaId           String?
   unidadeSubRogadaCodigoUnidade    String?
   unidadeSubRogadaNomeUnidade      String?
-  unidadeSubRogadaCodigoIbge       Int?
+  unidadeSubRogadaCodigoIbge       String?
   unidadeSubRogadaMunicipioNome    String?
   unidadeSubRogadaUfSigla          String?
   unidadeSubRogadaUfNome           String?
@@ -148,7 +148,7 @@ model OportunidadeAberta {
   orgaoEntidadeEsferaId            String?
   unidadeOrgaoCodigoUnidade        String?
   unidadeOrgaoNomeUnidade          String?
-  unidadeOrgaoCodigoIbge           Int?
+  unidadeOrgaoCodigoIbge           String?
   unidadeOrgaoMunicipioNome        String?
   unidadeOrgaoUfSigla              String?
   unidadeOrgaoUfNome               String?
@@ -158,7 +158,7 @@ model OportunidadeAberta {
   orgaoSubRogadoEsferaId           String?
   unidadeSubRogadaCodigoUnidade    String?
   unidadeSubRogadaNomeUnidade      String?
-  unidadeSubRogadaCodigoIbge       Int?
+  unidadeSubRogadaCodigoIbge       String?
   unidadeSubRogadaMunicipioNome    String?
   unidadeSubRogadaUfSigla          String?
   unidadeSubRogadaUfNome           String?

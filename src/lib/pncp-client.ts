@@ -17,7 +17,7 @@ export class PncpApiClient {
   }
 
   private async makeRequest<T>(endpoint: string, params: any): Promise<PncpApiResponse<T>> {
-    const url = new URL(endpoint, this.baseUrl)
+    const url = new URL(this.baseUrl + endpoint)
     
     // Add query parameters
     Object.entries(params).forEach(([key, value]) => {
@@ -26,12 +26,18 @@ export class PncpApiClient {
       }
     })
 
+    // Log for development debugging
+    if (process.env.NODE_ENV === 'development') {
+      console.log('PNCP API Request URL:', url.toString())
+    }
+
     try {
+      // Headers according to manual.md - only accept header needed for GET
       const response = await fetch(url.toString(), {
         method: 'GET',
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          'Accept': '*/*',
+          'User-Agent': 'nLic-Portal/1.0',
         },
       })
 

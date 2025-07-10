@@ -64,7 +64,7 @@ export const ESTADOS_BRASIL = [
 
 export const PNCP_API_ENDPOINTS = {
   CONTRATACOES_PUBLICACAO: '/v1/contratacoes/publicacao',
-  CONTRATACOES_PROPOSTAS: '/v1/contratacoes/proposta',
+  CONTRATACOES_PROPOSTAS: '/v1/contratacoes/proposta', 
   ATAS_REGISTRO_PRECO: '/v1/atas',
 } as const
 
